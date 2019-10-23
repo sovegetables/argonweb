@@ -1,0 +1,2 @@
+include ':app', ':agronweb'
+rootProject.name='ArgonWeb'
