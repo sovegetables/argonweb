@@ -10,3 +10,8 @@
 ```kotlin
     CommonWebActivity.start(this, url)
 ```
+### Support
+- Long press to save picture
+- Add multi WebChromeClient
+- Add multi WebViewClient
+- Play video with full screen 
