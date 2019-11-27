@@ -10,6 +10,7 @@
         <activity
             android:name=".ProcessCommonWebActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:process=":argonweb"
             android:exported="false"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
@@ -24,7 +25,6 @@
         <activity
             android:name=".CommonWebActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:process="argon_browser"
             android:exported="false"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"

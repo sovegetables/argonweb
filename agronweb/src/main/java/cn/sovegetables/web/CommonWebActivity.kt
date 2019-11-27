@@ -2,15 +2,15 @@ package cn.sovegetables.web
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.sovegetables.BaseActivity
+import com.sovegetables.topnavbar.TopBar
 import kotlinx.android.synthetic.main.activity_common_web.*
-import java.lang.IllegalArgumentException
 
-open class CommonWebActivity : AppCompatActivity() {
+open class CommonWebActivity : BaseActivity() {
 
     private var videoFullScreenHandler: DefaultVideoFullScreenHandler? = null
     private var longPressSavePictureHandler: LongPressSavePictureHandler? = null
@@ -29,6 +29,10 @@ open class CommonWebActivity : AppCompatActivity() {
             val intent = Intent(fragment.requireContext(), CommonWebActivity::class.java)
             intent.putExtra(KEY_URL, url)
             fragment.startActivity(intent)
+        }
+
+        init {
+            BaseActivity.setLeftTopIcon(R.drawable.ic_agron_web_close_black)
         }
 
     }
@@ -54,6 +58,10 @@ open class CommonWebActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         longPressSavePictureHandler?.onCreateContextMenu(menu, v, menuInfo)
+    }
+
+    override fun getTopBar(): TopBar {
+        return title("")
     }
 
 
