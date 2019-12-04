@@ -1,10 +1,12 @@
+[![](https://jitpack.io/v/sovegetables/ArgonWeb.svg)](https://jitpack.io/#sovegetables/ArgonWeb)
+
 ### Dependencies
 ```gradle
     maven { 
         url "https://jitpack.io" 
     }
     
-    implementation 'com.github.sovegetables:ArgonWeb:0.1.0'
+    implementation 'com.github.sovegetables:ArgonWeb:0.1.1'
 ```
 ### Usage
 - One line of code
@@ -39,7 +41,7 @@ fullScreenHandler.attachWeb(webview, activity)
 web.addWebChromeClient(fullScreenHandler)
 ```
 
-### Support
+### Feature
 - Long press to save picture
 - Add multi WebChromeClient
 - Add multi WebViewClient
