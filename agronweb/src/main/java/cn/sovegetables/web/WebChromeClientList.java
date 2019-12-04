@@ -22,9 +22,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-class WebChromeClientList extends WebChromeClient {
+class WebChromeClientList extends WebChromeClientAdapter {
 
-    private final List<WebChromeClient> mWebChromeClients = new ArrayList<>();
+    final List<WebChromeClientAdapter> mWebChromeClients = new ArrayList<>();
 
     WebChromeClientList() {
         super();
@@ -270,7 +270,9 @@ class WebChromeClientList extends WebChromeClient {
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
 
-    void addWebChromeClient(WebChromeClient client) {
+    void addWebChromeClient(WebChromeClientAdapter client) {
         mWebChromeClients.add(client);
     }
+
+
 }

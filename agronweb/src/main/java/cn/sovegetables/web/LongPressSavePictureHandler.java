@@ -50,15 +50,13 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * 长按WebView里图片弹窗，让用户保存图片
  */
 @RestrictTo(LIBRARY_GROUP)
-public class LongPressSavePictureHandler {
+public class LongPressSavePictureHandler implements IWebModule.LongPressSavePictureModule {
 
     private WebView mWebView;
 
-    public LongPressSavePictureHandler(WebView webView) {
+    @Override
+    public void attachWeb(WebView webView, Activity activity){
         mWebView = webView;
-    }
-
-    public void onCreate(Bundle bundle, Activity activity){
         activity.registerForContextMenu(mWebView);
     }
 

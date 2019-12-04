@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 /**
  * 视频全屏播放处理类
  */
-public class DefaultVideoFullScreenHandler extends WebChromeClientAdapter{
+public class DefaultVideoFullScreenHandler extends IWebModule.VideoFullScreenModule {
 
 
     private static final String TAG = "DefaultVideoFullScreenHandler";
@@ -25,7 +25,8 @@ public class DefaultVideoFullScreenHandler extends WebChromeClientAdapter{
     private FullscreenHolder mFullscreenHolder;
     private WebView mWebView;
 
-    public DefaultVideoFullScreenHandler(WebView webView, Activity activity) {
+    @Override
+    public void attachWeb(WebView webView, Activity activity) {
         mWebView = webView;
         mActivity = activity;
     }

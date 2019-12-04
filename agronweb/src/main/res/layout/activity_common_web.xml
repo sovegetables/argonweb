@@ -3,14 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/agron_web_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CommonWebActivity">
+    tools:context=".CommonWebActivity"
+    >
+
+    <FrameLayout
+        android:id="@+id/fl_agron_web_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <FrameLayout
+        android:id="@+id/fl_agron_web_footer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <cn.sovegetables.web.ArgonWebView
         android:id="@+id/web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_agron_web_header"
+        app:layout_constraintBottom_toTopOf="@+id/fl_agron_web_footer"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package cn.sovegetables.web;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -16,20 +18,26 @@ import android.webkit.WebStorage;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * WebChromeClientAdapter是WebChromeClient的适配器, WebChromeClient部分方法会有默认的实现，
  * WebChromeClientAdapter重写WebChromeClient所有的方法，不会调用方法的super
  */
 
-@RestrictTo(LIBRARY_GROUP)
-public abstract class WebChromeClientAdapter extends WebChromeClient {
+public abstract class WebChromeClientAdapter extends WebChromeClient implements WebAttach, WebResulter, WebDetach {
 
     public WebChromeClientAdapter() {
         super();
+    }
+
+    @Override
+    public void attachWeb(WebView webView, Activity activity) {
+    }
+
+    public void detachWeb(WebView webView, Activity activity){
+    }
+
+    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data){
     }
 
     /**

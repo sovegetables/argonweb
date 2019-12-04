@@ -7,7 +7,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-public abstract class OpenFileChooserHandler {
+public abstract class OpenFileChooserHandler implements WebAttach {
 
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadMessages;

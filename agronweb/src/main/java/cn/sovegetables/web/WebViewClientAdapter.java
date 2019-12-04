@@ -1,5 +1,7 @@
 package cn.sovegetables.web;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Message;
@@ -28,11 +30,20 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * WebViewClientAdapter重写WebViewClient所有的方法，不会调用方法的super
  */
 
-@RestrictTo(LIBRARY_GROUP)
-public abstract class WebViewClientAdapter extends WebViewClient {
+public abstract class WebViewClientAdapter extends WebViewClient implements WebAttach, WebResulter, WebDetach{
 
     public WebViewClientAdapter() {
         super();
+    }
+
+    @Override
+    public void attachWeb(WebView webView, Activity activity) {
+    }
+
+    public void detachWeb(WebView webView, Activity activity){
+    }
+
+    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data){
     }
 
     /**

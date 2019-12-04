@@ -101,8 +101,6 @@ public class ArgonWebView extends WebView {
         super.setWebChromeClient(mWebChromeClientList);
         mWebViewClientList = new WebViewClientList();
         super.setWebViewClient(mWebViewClientList);
-        super.setDownloadListener(new DefaultDownloadListener(getContext()));
-        addWebChromeClient(new DefaultWebChromeClient());
     }
 
     public final void addWebChromeClient(WebChromeClientAdapter client){
@@ -114,6 +112,14 @@ public class ArgonWebView extends WebView {
         mWebViewClientList.addWebChromeClient(client);
     }
 
+    WebChromeClientList getWebChromeClientList() {
+        return mWebChromeClientList;
+    }
+
+    WebViewClientList getWebViewClientList() {
+        return mWebViewClientList;
+    }
+
     /**
      * Deprecated use#addWebChromeClient
      * @param client WebChromeClient
@@ -121,7 +127,7 @@ public class ArgonWebView extends WebView {
     @Override
     @Deprecated
     public void setWebChromeClient(WebChromeClient client) {
-        mWebChromeClientList.addWebChromeClient(client);
+        mWebChromeClientList.addWebChromeClient(new WebChromeClientWrapper(client));
     }
 
     /**
@@ -131,10 +137,6 @@ public class ArgonWebView extends WebView {
     @Override
     @Deprecated
     public void setWebViewClient(WebViewClient client) {
-        mWebViewClientList.addWebChromeClient(client);
+        mWebViewClientList.addWebChromeClient(new WebViewClientWrapper(client));
     }
-
-    private static class DefaultWebChromeClient extends WebChromeClientAdapter{
-    }
-
 }

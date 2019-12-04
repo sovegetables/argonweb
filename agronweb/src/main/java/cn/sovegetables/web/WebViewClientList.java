@@ -24,7 +24,7 @@ import java.util.List;
 
 class WebViewClientList extends WebViewClient {
 
-    private final List<WebViewClient> mWebViewClient = new ArrayList<>();
+    final List<WebViewClientAdapter> mWebViewClient = new ArrayList<>();
 
     WebViewClientList() {
         super();
@@ -222,7 +222,7 @@ class WebViewClientList extends WebViewClient {
         }
     }
 
-    void addWebChromeClient(WebViewClient client) {
+    void addWebChromeClient(WebViewClientAdapter client) {
         mWebViewClient.add(client);
     }
 }
