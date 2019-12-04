@@ -1,0 +1,3 @@
+- support file chooser
+- custom tap bar view
+- js bridge
