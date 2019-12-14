@@ -39,7 +39,7 @@ public class WebViewClientWrapper extends WebViewClientAdapter{
     }
 
     @Override
-    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data) {
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
     }
 
     @Override

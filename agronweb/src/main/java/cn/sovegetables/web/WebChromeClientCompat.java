@@ -36,8 +36,8 @@ class WebChromeClientCompat extends WebChromeClientAdapter{
     }
 
     @Override
-    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data) {
-        webCompatCallback.onActivityResult(activity, reqeustCode, resultCode, data);
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+        webCompatCallback.onActivityResult(activity, requestCode, resultCode, data);
     }
 
     @Override

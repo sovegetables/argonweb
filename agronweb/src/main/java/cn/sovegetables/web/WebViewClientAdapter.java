@@ -20,9 +20,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 
 /**
@@ -30,7 +27,7 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * WebViewClientAdapter重写WebViewClient所有的方法，不会调用方法的super
  */
 
-public abstract class WebViewClientAdapter extends WebViewClient implements WebAttach, WebResulter, WebDetach{
+public abstract class WebViewClientAdapter extends WebViewClient implements WebAttach, WebResult, WebDetach{
 
     public WebViewClientAdapter() {
         super();
@@ -43,7 +40,7 @@ public abstract class WebViewClientAdapter extends WebViewClient implements WebA
     public void detachWeb(WebView webView, Activity activity){
     }
 
-    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data){
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data){
     }
 
     /**

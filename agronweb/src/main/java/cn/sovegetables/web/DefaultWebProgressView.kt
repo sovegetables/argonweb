@@ -12,7 +12,7 @@ class DefaultWebProgressView: IWebModule.WebProgressViewModule(){
 
     private lateinit var progressBar: ProgressBar
 
-    fun onCreateProgressVIew(inflater: LayoutInflater, webHeaderContainer: FrameLayout , container: ConstraintLayout){
+    override fun onCreateProgressVIew(inflater: LayoutInflater, webHeaderContainer: FrameLayout , container: ConstraintLayout){
         val progressView = inflater.inflate(R.layout.agron_web_progress_view, webHeaderContainer, false)
         progressBar = progressView.findViewById(R.id.agron_progress_bar)
         container.addView(progressView)

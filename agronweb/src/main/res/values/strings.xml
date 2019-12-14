@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">agronweb</string>
-    <string name="s_save_imge">保存图片</string>
-    <string name="s_save_img_success">保存图片成功!</string>
-    <string name="s_save_img_failed">保存图片失败!</string>
+    <string name="s_argon_web_save_img">保存图片</string>
+    <string name="s_argon_web_save_img_success">保存图片成功!</string>
+    <string name="s_argon_web_save_img_failed">保存图片失败!</string>
+    <string name="s_argon_web_files_select">文件选择</string>
+    <string name="s_argon_web_take_photo">拍照</string>
+    <string name="s_argon_web_file">文件</string>
+    <string name="s_argon_web_picture">图片</string>
+    <string name="s_argon_web_file_provider">com.sovegetables.file.provider</string>
+    <string name="SD_card_useless">SD卡不可用</string>
 </resources>

@@ -2,7 +2,6 @@ package cn.sovegetables.web
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.View
@@ -19,6 +18,7 @@ open class CommonWebActivity : BaseActivity() {
 
     private var videoFullScreenHandler: DefaultVideoFullScreenHandler? = null
     private var longPressSavePictureHandler: LongPressSavePictureHandler? = null
+    private var openFileChooserHandler: OpenFileChooserHandler? = null
 
     companion object{
 
@@ -58,6 +58,9 @@ open class CommonWebActivity : BaseActivity() {
         longPressSavePictureHandler = sModule.longPressSavePictureModule() as LongPressSavePictureHandler?
         longPressSavePictureHandler?.attachWeb(web, this)
 
+        openFileChooserHandler = sModule.openFIleChooserModule()
+        openFileChooserHandler?.attachWeb(web, this)
+
         videoFullScreenHandler = sModule.videoFullScreenModule() as DefaultVideoFullScreenHandler?
         web.addWebChromeClient(videoFullScreenHandler)
         web.addWebChromeClient(object : WebChromeClientAdapter(){
@@ -68,12 +71,8 @@ open class CommonWebActivity : BaseActivity() {
                     .textColorRes(android.R.color.black)
                     .update()
             }
-
-            override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
-                super.onReceivedIcon(view, icon)
-            }
         })
-        val defaultWebProgressView = DefaultWebProgressView()
+        val defaultWebProgressView = sModule.webProgressView()
         defaultWebProgressView.onCreateProgressVIew(layoutInflater, fl_agron_web_header, agron_web_container)
         web.addWebChromeClient(WebChromeClientCompat(defaultWebProgressView))
         web.addWebViewClient(WebViewClientCompat(defaultWebProgressView))
@@ -87,12 +86,12 @@ open class CommonWebActivity : BaseActivity() {
             web.addWebViewClient(it)
         }
 
-        Collections.unmodifiableCollection(web.webChromeClientList.mWebChromeClients)
-        Collections.unmodifiableCollection(web.webViewClientList.mWebViewClient)
-        web.webChromeClientList.mWebChromeClients.forEach {
+        Collections.unmodifiableCollection(web.webChromeClientList.webChromeClients)
+        Collections.unmodifiableCollection(web.webViewClientList.webViewClient)
+        web.webChromeClientList.webChromeClients.forEach {
             it.attachWeb(web, this)
         }
-        web.webViewClientList.mWebViewClient.forEach {
+        web.webViewClientList.webViewClient.forEach {
             it.attachWeb(web, this)
         }
         web.loadUrl(url)
@@ -110,6 +109,13 @@ open class CommonWebActivity : BaseActivity() {
     @CallSuper
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        web.webChromeClientList.webChromeClients.forEach {
+            it.onActivityResult(this, requestCode, resultCode, data)
+        }
+        web.webViewClientList.webViewClient.forEach {
+            it.onActivityResult(this, requestCode, resultCode, data)
+        }
+        openFileChooserHandler?.onActivityResult(this, requestCode, resultCode, data)
     }
 
     @CallSuper
@@ -126,10 +132,10 @@ open class CommonWebActivity : BaseActivity() {
 
     @CallSuper
     override fun onDestroy() {
-        web.webChromeClientList.mWebChromeClients.forEach {
+        web.webChromeClientList.webChromeClients.forEach {
             it.detachWeb(web, this)
         }
-        web.webViewClientList.mWebViewClient.forEach {
+        web.webViewClientList.webViewClient.forEach {
             it.detachWeb(web, this)
         }
 
