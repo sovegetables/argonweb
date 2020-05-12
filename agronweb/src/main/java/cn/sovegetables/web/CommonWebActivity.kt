@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.ContextMenu
 import android.view.View
 import android.webkit.WebView
@@ -11,7 +12,9 @@ import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.sovegetables.BaseActivity
+import com.sovegetables.titleTopBar
 import com.sovegetables.topnavbar.TopBar
+import com.sovegetables.topnavbar.TopBarItemUpdater
 import kotlinx.android.synthetic.main.activity_common_web.*
 import java.util.*
 
@@ -22,18 +25,26 @@ open class CommonWebActivity : BaseActivity() {
 
     companion object{
 
-        private const val KEY_URL = "key.CommonWebActivity.url"
+        private const val KEY_WEB_CONFIG = "key.CommonWebActivity.config"
         private var sModule: IWebModule = IWebModule.Default()
 
         fun start(activity: Activity, url: String){
+            start(activity, WebConfig(url = url, enableAutoTitle = true))
+        }
+
+        fun start(activity: Activity, webConfig: WebConfig){
             val intent = Intent(activity, CommonWebActivity::class.java)
-            intent.putExtra(KEY_URL, url)
+            intent.putExtra(KEY_WEB_CONFIG, webConfig)
             activity.startActivity(intent)
         }
 
         fun start(fragment: Fragment, url: String){
+            start(fragment, WebConfig(url = url, enableAutoTitle = true))
+        }
+
+        fun start(fragment: Fragment, webConfig: WebConfig){
             val intent = Intent(fragment.requireContext(), CommonWebActivity::class.java)
-            intent.putExtra(KEY_URL, url)
+            intent.putExtra(KEY_WEB_CONFIG, webConfig)
             fragment.startActivity(intent)
         }
 
@@ -41,18 +52,36 @@ open class CommonWebActivity : BaseActivity() {
             sModule = module
         }
 
-        init {
-            setLeftTopIcon(R.drawable.ic_agron_web_close_black)
+        private fun getWebConfig(activity: CommonWebActivity) : WebConfig{
+            return activity.intent?.getParcelableExtra(KEY_WEB_CONFIG) as  WebConfig
         }
-
     }
+
+    private lateinit var webConfig: WebConfig
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        webConfig = getWebConfig(this)
         setContentView(R.layout.activity_common_web)
-        val url = intent!!.extras!![KEY_URL] as String
 
+        val updater : TopBarItemUpdater = topBarAction.leftItemUpdater()
+        if(webConfig.withCloseIconAndClosePage){
+            updater.iconRes(R.drawable.ic_agron_web_close_black)
+        }else{
+            updater.iconRes(R.drawable.ic_delegate_arrow_back)
+        }
+        if(!webConfig.enableAutoTitle && !TextUtils.isEmpty(webConfig.title)){
+            if(webConfig.isCenterTitle){
+                topBarAction.topBarUpdater.title(webConfig.title)
+                    .update()
+            }else{
+                updater.text(webConfig.title)
+            }
+        }
+        updater.update()
+
+        val url = webConfig.url
         val downloadListener = sModule.downloadListenerModule()
         downloadListener?.attachWeb(web, this)
         longPressSavePictureHandler = sModule.longPressSavePictureModule() as LongPressSavePictureHandler?
@@ -62,11 +91,16 @@ open class CommonWebActivity : BaseActivity() {
         web.addWebChromeClient(videoFullScreenHandler)
         web.addWebChromeClient(object : WebChromeClientAdapter(){
             override fun onReceivedTitle(view: WebView?, title: String?) {
-                topBarAction.leftItemUpdater()
-                    .icon(ContextCompat.getDrawable(view!!.context, R.drawable.ic_agron_web_close_black))
-                    .text(title)
-                    .textColorRes(android.R.color.black)
-                    .update()
+                if(webConfig.enableAutoTitle){
+                    if(webConfig.isCenterTitle){
+                        topBarAction.topBarUpdater.title(title)
+                            .update()
+                    }else{
+                        topBarAction.leftItemUpdater()
+                            .text(title)
+                            .update()
+                    }
+                }
             }
 
             override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
@@ -138,10 +172,15 @@ open class CommonWebActivity : BaseActivity() {
     }
 
     override fun getTopBar(): TopBar {
-        return title("")
+        return titleTopBar("")
     }
 
     override fun onBackPressed() {
+        if(webConfig.withCloseIconAndClosePage){
+            super.onBackPressed()
+            return
+        }
+
         /* 回退键 事件处理 优先级:视频播放全屏-网页回退-关闭页面 */
         if (videoFullScreenHandler != null && videoFullScreenHandler!!.onBackPressed()) {
             return

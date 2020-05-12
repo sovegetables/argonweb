@@ -92,8 +92,10 @@ public class ArgonWebView extends WebView {
                 Log.e("WebSettings", "Error calling setMixedContentMode: " + ex.getMessage(), ex);
             }
         }
-        String ua = webSettings.getUserAgentString();
-        webSettings.setUserAgentString(ua + " argonweb" + Util.getVersionName(context));
+
+        CookieManager.getInstance().removeAllCookie();
+//        String ua = webSettings.getUserAgentString();
+        webSettings.setUserAgentString("ios:" + Util.getVersionName(context));
         webSettings.setSupportMultipleWindows(false);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setLoadsImagesAutomatically(true);
