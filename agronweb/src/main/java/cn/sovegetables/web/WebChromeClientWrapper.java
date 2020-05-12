@@ -40,8 +40,8 @@ public class WebChromeClientWrapper extends WebChromeClientAdapter{
     }
 
     @Override
-    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data) {
-        super.onActivityResult(activity, reqeustCode, resultCode, data);
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(activity, requestCode, resultCode, data);
     }
 
     @Override

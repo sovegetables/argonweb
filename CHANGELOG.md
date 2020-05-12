@@ -1,3 +1,6 @@
+### v0.1.2
+open file chooser
+
 ### v0.1.1
 - WebView loading progress bar
 - WebCompatCallback compat WebViewClient and WebChromeClient

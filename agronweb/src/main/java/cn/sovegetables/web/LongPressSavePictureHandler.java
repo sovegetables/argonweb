@@ -3,9 +3,7 @@ package cn.sovegetables.web;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,19 +13,11 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.webkit.WebView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -116,7 +106,7 @@ public class LongPressSavePictureHandler implements IWebModule.LongPressSavePict
             } else if (isBase64ImageUri(downloadImageUrl)) {
                 saveImageForDataImageUri(downloadImageUrl);
             } else {
-                Toast.makeText(mContext, R.string.s_save_img_failed, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.s_argon_web_save_img_failed, Toast.LENGTH_LONG).show();
             }
             return false;
         }
@@ -174,7 +164,7 @@ public class LongPressSavePictureHandler implements IWebModule.LongPressSavePict
             mUIHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(mContext, localFlag? R.string.s_save_img_success : R.string.s_save_img_failed,
+                    Toast.makeText(mContext, localFlag? R.string.s_argon_web_save_img_success : R.string.s_argon_web_save_img_failed,
                             Toast.LENGTH_LONG)
                             .show();
                 }
@@ -186,7 +176,7 @@ public class LongPressSavePictureHandler implements IWebModule.LongPressSavePict
         final WebView.HitTestResult webViewHitTestResult = mWebView.getHitTestResult();
         if (webViewHitTestResult.getType() == WebView.HitTestResult.IMAGE_TYPE ||
                 webViewHitTestResult.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-            menu.add(0, 1, 0, R.string.s_save_imge)
+            menu.add(0, 1, 0, R.string.s_argon_web_save_img)
                     .setOnMenuItemClickListener(new OnInternalMenuItemClickListener(webViewHitTestResult, mWebView.getContext()));
         }
     }

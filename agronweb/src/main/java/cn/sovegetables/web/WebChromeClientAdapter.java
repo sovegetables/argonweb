@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
  * WebChromeClientAdapter重写WebChromeClient所有的方法，不会调用方法的super
  */
 
-public abstract class WebChromeClientAdapter extends WebChromeClient implements WebAttach, WebResulter, WebDetach {
+public abstract class WebChromeClientAdapter extends WebChromeClient implements WebAttach, WebResult, WebDetach {
 
     public WebChromeClientAdapter() {
         super();
@@ -37,7 +37,7 @@ public abstract class WebChromeClientAdapter extends WebChromeClient implements 
     public void detachWeb(WebView webView, Activity activity){
     }
 
-    public void onActivityResult(Activity activity, int reqeustCode, int resultCode, Intent data){
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data){
     }
 
     /**

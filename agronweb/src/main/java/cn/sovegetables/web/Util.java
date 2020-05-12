@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -24,6 +25,31 @@ class Util {
             var4.printStackTrace();
         }
         return versionName;
+    }
+
+    static File createDir(String path) throws SecurityException {
+        File fileDir = new File(path);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        return fileDir;
+    }
+
+    static boolean isExternalStorageAvailable() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+
+    static boolean fileIsExists(String strFile) {
+        try {
+            File f = new File(strFile);
+            if (!f.exists()) {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     static void saveBitmapToFile(Context context, Bitmap bitmap, String _file)
