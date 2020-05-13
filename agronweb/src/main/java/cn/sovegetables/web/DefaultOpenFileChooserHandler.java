@@ -28,8 +28,15 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.sovegetables.permission.OnPermissionResultListener;
+import com.sovegetables.permission.PermissionResult;
+import com.sovegetables.permission.Permissions;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -139,22 +146,17 @@ public class DefaultOpenFileChooserHandler extends OpenFileChooserHandler{
                         return;
                     }
                     try {
-
                         if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            /*mActivity.requestPermissions(new BaseActivity.OnPermissionResultListener() {
+                            Permissions.request(mActivity, Manifest.permission.CAMERA, new OnPermissionResultListener() {
                                 @Override
-                                public void onAllGranted() {
-                                    super.onAllGranted();
-                                    //适配小米和魅族手机
-                                    if (!FileUtil.fileIsExists(PHOTO_TEMP_PATH_NAME)) {
-                                        FileUtil.createDir(PHOTO_TEMP_PATH_NAME);
+                                public void allGranted(@NotNull ArrayList<PermissionResult> arrayList) {
+                                    if (!Util.fileIsExists(PHOTO_TEMP_PATH_NAME)) {
+                                        Util.createDir(PHOTO_TEMP_PATH_NAME);
                                     }
-                                    //7.0的FileUriExposedException
                                     if (Build.VERSION.SDK_INT >= 24) {
                                         mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName(getMIMEType(mFileChooserParams)));
-                                        Uri uri = FileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
+                                        Uri uri = ArgonWebFileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
                                         final Intent intent = getTakePickIntent(uri, getMIMEType(mFileChooserParams));
-                                        //适配小米，需要循环拿权限
                                         List<ResolveInfo> resInfoList = mActivity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
                                         for (ResolveInfo resolveInfo : resInfoList) {
                                             String packageName = resolveInfo.activityInfo.packageName;
@@ -172,17 +174,10 @@ public class DefaultOpenFileChooserHandler extends OpenFileChooserHandler{
                                 }
 
                                 @Override
-                                public void onAnyDenied(String[] permissions) {
-                                    super.onAnyDenied(permissions);
+                                public void denied(@NotNull ArrayList<PermissionResult> arrayList, @NotNull ArrayList<PermissionResult> arrayList1) {
+                                    Toast.makeText(mActivity, R.string.need_camera_permission, Toast.LENGTH_SHORT).show();
                                 }
-
-                                @Override
-                                public void onAlwaysDenied(String[] permissions) {
-                                    String message = mActivity.getString(R.string.need_camera_permission);
-                                    PermissionDeniedDialog permissionDeniedDialog = new PermissionDeniedDialog(mActivity, message);
-                                    permissionDeniedDialog.show();
-                                }
-                            }, Manifest.permission.CAMERA);*/
+                            });
                         } else {
                             if (!Util.fileIsExists(PHOTO_TEMP_PATH_NAME)) {
                                 Util.createDir(PHOTO_TEMP_PATH_NAME);
@@ -190,7 +185,7 @@ public class DefaultOpenFileChooserHandler extends OpenFileChooserHandler{
                             //7.0的FileUriExposedException
                             if (Build.VERSION.SDK_INT >= 24) {
                                 mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName(getMIMEType(mFileChooserParams)));
-                                Uri uri = FileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
+                                Uri uri = ArgonWebFileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
                                 final Intent intent = getTakePickIntent(uri, getMIMEType(mFileChooserParams));
                                 //适配小米，需要循环拿权限
                                 List<ResolveInfo> resInfoList = mActivity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);

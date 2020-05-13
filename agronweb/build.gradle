@@ -8,7 +8,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -35,8 +35,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
-    implementation 'com.github.sovegetables.shineandroid:absactivity:0.3.0'
-    implementation 'com.github.sovegetables.shineandroid:topnavbar:0.3.0'
+    implementation 'com.github.sovegetables.shineandroid:absactivity:0.3.1'
+    implementation 'com.github.sovegetables.shineandroid:topnavbar:0.3.1'
+    implementation 'com.github.sovegetables.shineandroid:permission:0.3.1'
     implementation 'com.qmuiteam:qmui:1.4.0'
 
     testImplementation 'junit:junit:4.12'
