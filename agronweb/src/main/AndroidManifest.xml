@@ -37,7 +37,7 @@
         </activity>
 
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name=".ArgonWebFileProvider"
             android:authorities="@string/s_argon_web_file_provider"
             android:exported="false"
             android:grantUriPermissions="true"
