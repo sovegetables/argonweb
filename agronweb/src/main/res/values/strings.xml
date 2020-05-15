@@ -7,7 +7,7 @@
     <string name="s_argon_web_take_photo">拍照</string>
     <string name="s_argon_web_file">文件</string>
     <string name="s_argon_web_picture">图片</string>
-    <string name="s_argon_web_file_provider">com.sovegetables.file.provider</string>
+    <string name="s_argon_web_file_provider">%s.com.sovegetables.file.provider</string>
     <string name="SD_card_useless">SD卡不可用</string>
     <string name="need_camera_permission">需要授予拍照权限!</string>
 </resources>

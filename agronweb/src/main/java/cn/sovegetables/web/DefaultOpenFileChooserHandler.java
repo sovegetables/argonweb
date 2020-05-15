@@ -155,7 +155,8 @@ public class DefaultOpenFileChooserHandler extends OpenFileChooserHandler{
                                     }
                                     if (Build.VERSION.SDK_INT >= 24) {
                                         mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName(getMIMEType(mFileChooserParams)));
-                                        Uri uri = ArgonWebFileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
+                                        Uri uri = ArgonWebFileProvider.getUriForFile(mActivity,
+                                                mActivity.getString(R.string.s_argon_web_file_provider, mActivity.getPackageName()), mCurrentPhotoFile);
                                         final Intent intent = getTakePickIntent(uri, getMIMEType(mFileChooserParams));
                                         List<ResolveInfo> resInfoList = mActivity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
                                         for (ResolveInfo resolveInfo : resInfoList) {
@@ -185,7 +186,9 @@ public class DefaultOpenFileChooserHandler extends OpenFileChooserHandler{
                             //7.0的FileUriExposedException
                             if (Build.VERSION.SDK_INT >= 24) {
                                 mCurrentPhotoFile = new File(PHOTO_DIR, getPhotoFileName(getMIMEType(mFileChooserParams)));
-                                Uri uri = ArgonWebFileProvider.getUriForFile(mActivity, mActivity.getString(R.string.s_argon_web_file_provider), mCurrentPhotoFile);
+                                Uri uri = ArgonWebFileProvider.getUriForFile(mActivity,
+                                        mActivity.getString(R.string.s_argon_web_file_provider, mActivity.getPackageName()),
+                                        mCurrentPhotoFile);
                                 final Intent intent = getTakePickIntent(uri, getMIMEType(mFileChooserParams));
                                 //适配小米，需要循环拿权限
                                 List<ResolveInfo> resInfoList = mActivity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);

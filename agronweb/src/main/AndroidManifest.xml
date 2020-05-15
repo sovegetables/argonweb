@@ -38,7 +38,7 @@
 
         <provider
             android:name=".ArgonWebFileProvider"
-            android:authorities="@string/s_argon_web_file_provider"
+            android:authorities="${applicationId}.com.sovegetables.file.provider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
