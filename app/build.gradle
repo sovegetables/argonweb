@@ -31,8 +31,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.qmuiteam:qmui:1.4.0'
     implementation project(':agronweb')
-    implementation 'com.github.sovegetables.shineandroid:absactivity:0.3.0'
-    implementation 'com.github.sovegetables.shineandroid:topnavbar:0.3.0'
+    implementation 'com.github.sovegetables.shineandroid:absactivity:0.3.1'
+    implementation 'com.github.sovegetables.shineandroid:topnavbar:0.3.1'
 //    implementation 'com.github.sovegetables:ArgonWeb:0.1.0'
 
 //    implementation 'com.github.sovegetables:shineandroid:0.2.8'

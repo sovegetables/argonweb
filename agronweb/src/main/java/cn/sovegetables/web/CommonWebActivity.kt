@@ -11,6 +11,7 @@ import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.sovegetables.BaseActivity
+import com.sovegetables.SystemBarConfig
 import com.sovegetables.titleTopBar
 import com.sovegetables.topnavbar.TopBar
 import com.sovegetables.topnavbar.TopBarItemUpdater
@@ -175,6 +176,10 @@ open class CommonWebActivity : BaseActivity() {
 
         super.onDestroy()
         web.destroy()
+    }
+
+    override fun createSystemBarConfig(): SystemBarConfig? {
+        return super.createSystemBarConfig()
     }
 
     override fun getTopBar(): TopBar {
