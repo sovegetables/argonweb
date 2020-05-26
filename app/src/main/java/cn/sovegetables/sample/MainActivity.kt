@@ -1,5 +1,6 @@
 package cn.sovegetables.sample
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -16,9 +17,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        et_input.setText("http://special.cyzone.cn/special/index/init?special_id=1948&act_id=38&from=timeline&isappinstalled=0")
+        et_input.setText("https://www.baidu.com")
         btn_go.setOnClickListener {
-            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), enableAutoTitle = true, withCloseIconAndClosePage = true) )
+            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE,
+                enableAutoTitle = true,
+                withCloseIconAndClosePage = false) )
         }
 
 //        for (i in 1..1000){

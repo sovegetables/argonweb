@@ -179,7 +179,12 @@ open class CommonWebActivity : BaseActivity() {
     }
 
     override fun createSystemBarConfig(): SystemBarConfig? {
-        return super.createSystemBarConfig()
+        val config = getWebConfig(this)
+        val builder = SystemBarConfig.Builder()
+        if(config.statusColorInt != null){
+            builder.setStatusBarColor(config.statusColorInt!!)
+        }
+        return builder.build()
     }
 
     override fun getTopBar(): TopBar {
