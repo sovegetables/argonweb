@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         et_input.setText("https://www.baidu.com")
         btn_go.setOnClickListener {
             CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE,
+                shareType = WebConfig.TYPE_SHARE_DEFAULT,
                 enableAutoTitle = true,
                 withCloseIconAndClosePage = false) )
         }

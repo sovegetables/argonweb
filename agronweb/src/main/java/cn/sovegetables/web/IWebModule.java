@@ -66,6 +66,28 @@ public interface IWebModule {
         public abstract void onPageFinished(WebView view, String url);
     }
 
+    abstract class  WebProgressViewModuleAdapter extends WebProgressViewModule{
+        @Override
+        public void onCreateProgressVIew(LayoutInflater inflater, FrameLayout webHeaderContainer, ConstraintLayout container) {
+
+        }
+
+        @Override
+        public void onProgressChanged(WebView view, int progress) {
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+        }
+    }
+
     interface DownloadListenerModule extends DownloadListener, WebAttach {
     }
 

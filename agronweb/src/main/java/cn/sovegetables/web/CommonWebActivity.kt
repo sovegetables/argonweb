@@ -8,12 +8,12 @@ import android.view.ContextMenu
 import android.view.View
 import android.webkit.WebView
 import androidx.annotation.CallSuper
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.sovegetables.BaseActivity
 import com.sovegetables.SystemBarConfig
-import com.sovegetables.titleTopBar
+import com.sovegetables.titleBuilder
 import com.sovegetables.topnavbar.TopBar
+import com.sovegetables.topnavbar.TopBarItem
 import com.sovegetables.topnavbar.TopBarItemUpdater
 import kotlinx.android.synthetic.main.activity_common_web.*
 import java.util.*
@@ -28,6 +28,8 @@ open class CommonWebActivity : BaseActivity() {
 
         private const val KEY_WEB_CONFIG = "key.CommonWebActivity.config"
         private var sModule: IWebModule = IWebModule.Default()
+
+        const val SHARE_TOP_ITEM_ID = 22;
 
         fun start(activity: Activity, url: String){
             start(activity, WebConfig(url = url, enableAutoTitle = true))
@@ -53,7 +55,13 @@ open class CommonWebActivity : BaseActivity() {
             sModule = module
         }
 
-        private fun getWebConfig(activity: CommonWebActivity) : WebConfig{
+        fun getIntent(webConfig: WebConfig) : Intent{
+            val intent = Intent()
+            intent.putExtra(KEY_WEB_CONFIG, webConfig)
+            return intent;
+        }
+
+        fun getWebConfig(activity: CommonWebActivity) : WebConfig{
             return activity.intent?.getParcelableExtra(KEY_WEB_CONFIG) as  WebConfig
         }
     }
@@ -112,6 +120,16 @@ open class CommonWebActivity : BaseActivity() {
         web.addWebChromeClient(WebChromeClientCompat(defaultWebProgressView))
         web.addWebViewClient(WebViewClientCompat(defaultWebProgressView))
 
+        val pageListener = object : IWebModule.WebProgressViewModuleAdapter(){
+            override fun onPageFinished(view: WebView?, url: String?) {
+                topBarAction.findRightItemUpdaterById(SHARE_TOP_ITEM_ID)
+                    .visibility(View.VISIBLE)
+                    .update()
+            }
+        }
+        web.addWebChromeClient(WebChromeClientCompat(pageListener))
+        web.addWebViewClient(WebViewClientCompat(pageListener))
+
         val listWebChromeClient = sModule.listWebChromeClient()
         listWebChromeClient?.forEach {
             web.addWebChromeClient(it)
@@ -129,6 +147,7 @@ open class CommonWebActivity : BaseActivity() {
         web.webViewClientList.webViewClient.forEach {
             it.attachWeb(web, this)
         }
+        webConfig.realUrl = url
         web.loadUrl(url)
     }
 
@@ -188,7 +207,23 @@ open class CommonWebActivity : BaseActivity() {
     }
 
     override fun getTopBar(): TopBar {
-        return titleTopBar("")
+        val items = arrayListOf<TopBarItem>()
+        items.add(TopBarItem.Builder()
+            .icon(R.drawable.ic_agron_web_share)
+            .listener {
+                val shareIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, webConfig.realUrl?:"")
+                    type = "text/*"
+                }
+                startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.argon_send_to)))
+            }
+            .visibility(TopBarItem.Visibility.GONE)
+            .build(this, SHARE_TOP_ITEM_ID))
+        val topBar = titleBuilder("")
+            .rights(items)
+            .build(this)
+        return topBar
     }
 
     override fun onBackPressed() {

@@ -10,4 +10,5 @@
     <string name="s_argon_web_file_provider">%s.com.sovegetables.file.provider</string>
     <string name="SD_card_useless">SD卡不可用</string>
     <string name="need_camera_permission">需要授予拍照权限!</string>
+    <string name="argon_send_to">分享</string>
 </resources>
