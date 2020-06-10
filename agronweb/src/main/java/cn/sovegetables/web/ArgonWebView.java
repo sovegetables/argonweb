@@ -2,6 +2,7 @@ package cn.sovegetables.web;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,31 +34,57 @@ public class ArgonWebView extends WebView {
     private WebViewClientList mWebViewClientList;
 
     public ArgonWebView(Context context) {
-        super(context, null);
+        super(getFixedContext(context), null);
         init(context);
     }
 
     public ArgonWebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(getFixedContext(context), attrs);
         init(context);
     }
 
     public ArgonWebView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @SuppressWarnings("unused")
-    public ArgonWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(getFixedContext(context), attrs, defStyleAttr);
         init(context);
     }
 
     @SuppressWarnings({"unused", "deprecated"})
     public ArgonWebView(Context context, AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
-        super(context, attrs, defStyleAttr, privateBrowsing);
+        super(getFixedContext(context), attrs, defStyleAttr, privateBrowsing);
         init(context);
+    }
+
+
+    //androidx在Android 5.1部分机型报Resources$NotFoundException
+
+    /**
+     * Caused by:
+     * 5 android.content.res.Resources$NotFoundException:String resource ID #0x2040003
+     * 6 android.content.res.Resources.getText(Resources.java:318)
+     * 7 android.content.res.VivoResources.getText(VivoResources.java:123)
+     * 8 android.content.res.Resources.getString(Resources.java:404)
+     * 9 com.android.org.chromium.content.browser.ContentViewCore.setContainerView(ContentViewCore.java:694)
+     * 10 com.android.org.chromium.content.browser.ContentViewCore.initialize(ContentViewCore.java:618)
+     * 11 com.android.org.chromium.android_webview.AwContents.createAndInitializeContentViewCore(AwContents.java:631)
+     * 12 com.android.org.chromium.android_webview.AwContents.setNewAwContents(AwContents.java:780)
+     * 13 com.android.org.chromium.android_webview.AwContents.<init>(AwContents.java:619)
+     * 14 com.android.org.chromium.android_webview.AwContents.<init>(AwContents.java:556)
+     * 15 com.android.webview.chromium.WebViewChromium.initForReal(WebViewChromium.java:312)
+     * 16 com.android.webview.chromium.WebViewChromium.access$100(WebViewChromium.java:96)
+     * 17 com.android.webview.chromium.WebViewChromium$1.run(WebViewChromium.java:264)
+     * 18 com.android.webview.chromium.WebViewChromium$WebViewChromiumRunQueue.drainQueue(WebViewChromium.java:123)
+     * 19 com.android.webview.chromium.WebViewChromium$WebViewChromiumRunQueue$1.run(WebViewChromium.java:110)
+     * 20 com.android.org.chromium.base.ThreadUtils.runOnUiThread(ThreadUtils.java:144)
+     * 21 com.android.webview.chromium.WebViewChromium$WebViewChromiumRunQueue.addTask(WebViewChromium.java:107)
+     * 22 com.android.webview.chromium.WebViewChromium.init(WebViewChromium.java:261)
+     * 23 android.webkit.WebView.<init>(WebView.java:554)
+     */
+    private static Context getFixedContext(Context context) {
+        // Android Lollipop 5.0 & 5.1
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return context.createConfigurationContext(new Configuration());
+        }
+        return context;
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -74,12 +101,14 @@ public class ArgonWebView extends WebView {
         webSettings.setDatabaseEnabled(true);
         webSettings.setDefaultTextEncodingName(UTF_8);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            webSettings.setMediaPlaybackRequiresUserGesture(false);
+        }
         webSettings.setDomStorageEnabled(true);
         String appCachePath = context.getCacheDir().getAbsolutePath();
         webSettings.setAppCachePath(appCachePath);
         webSettings.setAllowFileAccess(true);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(this, true);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -23,8 +23,8 @@
 ```
 
 ```kotlin
-webview.addWebChromeClient(webchromeclient1）
-webview.addWebChromeClient(webchromeclient2）
+webview.addWebChromeClient(webchromeclient1)
+webview.addWebChromeClient(webchromeclient2)
 
 webview.addWebViewClient(webviewclient1)
 webview.addWebViewClient(webviewclient2)
