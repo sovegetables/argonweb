@@ -124,7 +124,7 @@ public class ArgonWebView extends WebView {
 
         CookieManager.getInstance().removeAllCookie();
         String ua = webSettings.getUserAgentString();
-        webSettings.setUserAgentString(ua +  "Android AgronWeb" + Util.getVersionName(context));
+        webSettings.setUserAgentString(ua +  "  Android AgronWeb:" + Util.getVersionName(context));
         webSettings.setSupportMultipleWindows(false);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setLoadsImagesAutomatically(true);
