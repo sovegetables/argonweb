@@ -58,7 +58,7 @@ open class CommonWebActivity : BaseActivity() {
         fun getIntent(webConfig: WebConfig) : Intent{
             val intent = Intent()
             intent.putExtra(KEY_WEB_CONFIG, webConfig)
-            return intent;
+            return intent
         }
 
         fun getWebConfig(activity: CommonWebActivity) : WebConfig{
@@ -141,6 +141,9 @@ open class CommonWebActivity : BaseActivity() {
 
         Collections.unmodifiableCollection(web.webChromeClientList.webChromeClients)
         Collections.unmodifiableCollection(web.webViewClientList.webViewClient)
+
+        onPrepareWeb(web, webConfig)
+
         web.webChromeClientList.webChromeClients.forEach {
             it.attachWeb(web, this)
         }
@@ -149,6 +152,9 @@ open class CommonWebActivity : BaseActivity() {
         }
         webConfig.realUrl = url
         web.loadUrl(url)
+    }
+
+    protected open fun onPrepareWeb(web: ArgonWebView?, webConfig: WebConfig) {
     }
 
     override fun onCreateContextMenu(

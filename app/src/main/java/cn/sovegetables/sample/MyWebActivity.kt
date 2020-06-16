@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.MotionEvent
 import cn.sovegetables.web.ArgonWebView
 import cn.sovegetables.web.CommonWebActivity
+import cn.sovegetables.web.WebConfig
 import com.sovegetables.topnavbar.TopBar
 
 class MyWebActivity : CommonWebActivity() {
@@ -55,6 +56,9 @@ class MyWebActivity : CommonWebActivity() {
         eventUp.recycle();
     }
 
+    override fun onPrepareWeb(web: ArgonWebView?, webConfig: WebConfig) {
+        super.onPrepareWeb(web, webConfig)
+    }
 
     override fun getTopBar(): TopBar {
         return TopBar.NO_ACTION_BAR
