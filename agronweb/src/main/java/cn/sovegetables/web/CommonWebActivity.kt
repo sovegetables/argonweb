@@ -3,6 +3,7 @@ package cn.sovegetables.web
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.view.ContextMenu
 import android.view.View
@@ -37,7 +38,7 @@ open class CommonWebActivity : BaseActivity() {
 
         fun start(activity: Activity, webConfig: WebConfig){
             val intent = Intent(activity, CommonWebActivity::class.java)
-            intent.putExtra(KEY_WEB_CONFIG, webConfig)
+            putWebConfig(intent, webConfig)
             activity.startActivity(intent)
         }
 
@@ -47,7 +48,7 @@ open class CommonWebActivity : BaseActivity() {
 
         fun start(fragment: Fragment, webConfig: WebConfig){
             val intent = Intent(fragment.requireContext(), CommonWebActivity::class.java)
-            intent.putExtra(KEY_WEB_CONFIG, webConfig)
+            putWebConfig(intent, webConfig)
             fragment.startActivity(intent)
         }
 
@@ -57,8 +58,12 @@ open class CommonWebActivity : BaseActivity() {
 
         fun getIntent(webConfig: WebConfig) : Intent{
             val intent = Intent()
-            intent.putExtra(KEY_WEB_CONFIG, webConfig)
+            putWebConfig(intent, webConfig)
             return intent
+        }
+
+        fun putWebConfig(intent: Intent, webConfig: WebConfig) {
+            intent.putExtra(KEY_WEB_CONFIG, webConfig)
         }
 
         fun getWebConfig(activity: CommonWebActivity) : WebConfig{
@@ -70,8 +75,8 @@ open class CommonWebActivity : BaseActivity() {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         webConfig = getWebConfig(this)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_web)
 
         val updater : TopBarItemUpdater = topBarAction.leftItemUpdater()
@@ -154,6 +159,16 @@ open class CommonWebActivity : BaseActivity() {
         web.loadUrl(url)
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putParcelable(KEY_WEB_CONFIG, webConfig)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        webConfig = getWebConfig(this)
+    }
+
     protected open fun onPrepareWeb(web: ArgonWebView?, webConfig: WebConfig) {
     }
 
@@ -204,7 +219,7 @@ open class CommonWebActivity : BaseActivity() {
     }
 
     override fun createSystemBarConfig(): SystemBarConfig? {
-        val config = getWebConfig(this)
+        val config = webConfig
         val builder = SystemBarConfig.Builder()
         if(config.statusColorInt != null){
             builder.setStatusBarColor(config.statusColorInt!!)
