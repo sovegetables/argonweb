@@ -101,8 +101,11 @@ open class CommonWebActivity : BaseActivity() {
         longPressSavePictureHandler = sModule.longPressSavePictureModule() as LongPressSavePictureHandler?
         longPressSavePictureHandler?.attachWeb(web, this)
 
+
         openFileChooserHandler = sModule.openFIleChooserModule()
         openFileChooserHandler?.attachWeb(web, this)
+        web.addWebChromeClient(openFileChooserHandler)
+
 
         videoFullScreenHandler = sModule.videoFullScreenModule() as DefaultVideoFullScreenHandler?
         web.addWebChromeClient(videoFullScreenHandler)
@@ -228,23 +231,27 @@ open class CommonWebActivity : BaseActivity() {
     }
 
     override fun getTopBar(): TopBar {
-        val items = arrayListOf<TopBarItem>()
-        items.add(TopBarItem.Builder()
-            .icon(R.drawable.ic_agron_web_share)
-            .listener {
-                val shareIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, webConfig.realUrl?:"")
-                    type = "text/*"
+        if(!webConfig.enable){
+            return TopBar.NO_ACTION_BAR
+        }else{
+            val items = arrayListOf<TopBarItem>()
+            items.add(TopBarItem.Builder()
+                .icon(R.drawable.ic_agron_web_share)
+                .listener {
+                    val shareIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, webConfig.realUrl?:"")
+                        type = "text/*"
+                    }
+                    startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.argon_send_to)))
                 }
-                startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.argon_send_to)))
-            }
-            .visibility(TopBarItem.Visibility.GONE)
-            .build(this, SHARE_TOP_ITEM_ID))
-        val topBar = titleBuilder("")
-            .rights(items)
-            .build(this)
-        return topBar
+                .visibility(TopBarItem.Visibility.GONE)
+                .build(this, SHARE_TOP_ITEM_ID))
+            return titleBuilder("")
+                .rights(items)
+                .build(this)
+        }
+
     }
 
     override fun onBackPressed() {

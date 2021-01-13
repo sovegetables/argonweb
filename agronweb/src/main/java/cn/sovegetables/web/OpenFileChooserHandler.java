@@ -7,7 +7,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-public abstract class OpenFileChooserHandler implements WebAttach, WebResult {
+public abstract class OpenFileChooserHandler extends WebChromeClientAdapter implements WebAttach, WebResult {
 
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadMessages;
@@ -38,13 +38,16 @@ public abstract class OpenFileChooserHandler implements WebAttach, WebResult {
      * @param webView WebView
      * @param filePathCallback ValueCallback<Uri[]>
      * @param fileChooserParams WebChromeClient.FileChooserParams
+     * @return
      */
-    public final void onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams){
+    @Override
+    public final boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams){
         if (mUploadMessages != null) {
-            return;
+            return true;
         }
         mUploadMessages = filePathCallback;
         onChildShowFileChooser(webView, fileChooserParams);
+        return true;
     }
 
     /**
