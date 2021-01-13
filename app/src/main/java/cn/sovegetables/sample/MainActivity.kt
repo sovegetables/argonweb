@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         et_input.setText("http://134.175.132.191:18085")
         btn_go.setOnClickListener {
-            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE,
+            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE, enable = false,
                 shareType = WebConfig.TYPE_SHARE_DEFAULT,
                 enableAutoTitle = true,
                 withCloseIconAndClosePage = false) )

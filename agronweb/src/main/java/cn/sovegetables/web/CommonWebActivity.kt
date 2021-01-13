@@ -78,23 +78,23 @@ open class CommonWebActivity : BaseActivity() {
         webConfig = getWebConfig(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_common_web)
-
-        val updater : TopBarItemUpdater = topBarAction.leftItemUpdater()
-        if(webConfig.withCloseIconAndClosePage){
-            updater.iconRes(R.drawable.ic_agron_web_close_black)
-        }else{
-            updater.iconRes(R.drawable.ic_delegate_arrow_back)
-        }
-        if(!webConfig.enableAutoTitle && !TextUtils.isEmpty(webConfig.title)){
-            if(webConfig.isCenterTitle){
-                topBarAction.topBarUpdater.title(webConfig.title)
-                    .update()
+        if(webConfig.enable){
+            val updater : TopBarItemUpdater = topBarAction.leftItemUpdater()
+            if(webConfig.withCloseIconAndClosePage){
+                updater.iconRes(R.drawable.ic_agron_web_close_black)
             }else{
-                updater.text(webConfig.title)
+                updater.iconRes(R.drawable.ic_delegate_arrow_back)
             }
+            if(!webConfig.enableAutoTitle && !TextUtils.isEmpty(webConfig.title)){
+                if(webConfig.isCenterTitle){
+                    topBarAction.topBarUpdater.title(webConfig.title)
+                        .update()
+                }else{
+                    updater.text(webConfig.title)
+                }
+            }
+            updater.update()
         }
-        updater.update()
-
         val url = webConfig.url
         val downloadListener = sModule.downloadListenerModule()
         downloadListener?.attachWeb(web, this)
@@ -111,6 +111,9 @@ open class CommonWebActivity : BaseActivity() {
         web.addWebChromeClient(videoFullScreenHandler)
         web.addWebChromeClient(object : WebChromeClientAdapter(){
             override fun onReceivedTitle(view: WebView?, title: String?) {
+                if(!webConfig.enable){
+                    return
+                }
                 if(webConfig.enableAutoTitle){
                     if(webConfig.isCenterTitle){
                         topBarAction.topBarUpdater.title(title)
@@ -130,9 +133,11 @@ open class CommonWebActivity : BaseActivity() {
 
         val pageListener = object : IWebModule.WebProgressViewModuleAdapter(){
             override fun onPageFinished(view: WebView?, url: String?) {
-                topBarAction.findRightItemUpdaterById(SHARE_TOP_ITEM_ID)
-                    .visibility(View.VISIBLE)
-                    .update()
+                if(webConfig.enable){
+                    topBarAction.findRightItemUpdaterById(SHARE_TOP_ITEM_ID)
+                        .visibility(View.VISIBLE)
+                        .update()
+                }
             }
         }
         web.addWebChromeClient(WebChromeClientCompat(pageListener))
