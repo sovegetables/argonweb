@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        et_input.setText("http://134.175.132.191:18085")
+        et_input.setText("https://www.baidu.com")
         btn_go.setOnClickListener {
-            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE, enable = false,
-                shareType = WebConfig.TYPE_SHARE_DEFAULT,
+            CommonWebActivity.start(this, WebConfig(url = et_input.text.toString(), statusColorInt = Color.BLUE, enable = true,
+//                shareType = WebConfig.TYPE_SHARE_DEFAULT,
                 enableAutoTitle = true,
                 withCloseIconAndClosePage = false) )
         }

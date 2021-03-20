@@ -10,6 +10,7 @@ import android.view.View
 import android.webkit.WebView
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import cn.sovegetables.web.WebConfig.Companion.TYPE_SHARE_DEFAULT
 import com.sovegetables.BaseActivity
 import com.sovegetables.SystemBarConfig
 import com.sovegetables.titleBuilder
@@ -134,9 +135,8 @@ open class CommonWebActivity : BaseActivity() {
         val pageListener = object : IWebModule.WebProgressViewModuleAdapter(){
             override fun onPageFinished(view: WebView?, url: String?) {
                 if(webConfig.enable){
-                    topBarAction.findRightItemUpdaterById(SHARE_TOP_ITEM_ID)
-                        .visibility(View.VISIBLE)
-                        .update()
+                    val topBarItemUpdater = topBarAction.findRightItemUpdaterById(SHARE_TOP_ITEM_ID)
+                    topBarItemUpdater?.visibility(View.VISIBLE)?.update()
                 }
             }
         }
@@ -240,18 +240,20 @@ open class CommonWebActivity : BaseActivity() {
             return TopBar.NO_ACTION_BAR
         }else{
             val items = arrayListOf<TopBarItem>()
-            items.add(TopBarItem.Builder()
-                .icon(R.drawable.ic_agron_web_share)
-                .listener {
-                    val shareIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, webConfig.realUrl?:"")
-                        type = "text/*"
+            if(webConfig.shareType == TYPE_SHARE_DEFAULT){
+                items.add(TopBarItem.Builder()
+                    .icon(R.drawable.ic_agron_web_share)
+                    .listener {
+                        val shareIntent: Intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, webConfig.realUrl?:"")
+                            type = "text/*"
+                        }
+                        startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.argon_send_to)))
                     }
-                    startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.argon_send_to)))
-                }
-                .visibility(TopBarItem.Visibility.GONE)
-                .build(this, SHARE_TOP_ITEM_ID))
+                    .visibility(TopBarItem.Visibility.GONE)
+                    .build(this, SHARE_TOP_ITEM_ID))
+            }
             return titleBuilder("")
                 .rights(items)
                 .build(this)

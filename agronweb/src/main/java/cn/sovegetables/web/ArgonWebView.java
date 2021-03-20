@@ -12,8 +12,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.RequiresApi;
-
 import java.lang.reflect.Method;
 
 /**
@@ -104,7 +102,7 @@ public class ArgonWebView extends WebView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webSettings.setMediaPlaybackRequiresUserGesture(false);
         }
-        webSettings.setDomStorageEnabled(true);
+//        webSettings.setDomStorageeEnabled(true);
         String appCachePath = context.getCacheDir().getAbsolutePath();
         webSettings.setAppCachePath(appCachePath);
         webSettings.setAllowFileAccess(true);
